@@ -37,13 +37,13 @@ const App = () => {
   const avg = good - bad
   const percentage = good/total*100
 
-  function handleGoodClick(){
+  const handleGoodClick = () => {
     setGood(prevGood => prevGood + 1)
   }
-  function handleNeutralClick(){
+  const handleNeutralClick = () => {
     setNeutral(prevNeutral => prevNeutral + 1)
   }
-  function handleBadClick(){
+  const handleBadClick = () => {
     setBad(prevBad => prevBad + 1)
   }
   return (
