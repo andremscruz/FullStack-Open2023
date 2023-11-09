@@ -32,7 +32,7 @@ const App = () => {
     copy[selected] += 1
     setVotes(copy)
   }
-  console.log(mostVoted)
+
   return (
     <div>
       <h1>Anecdote of the day</h1>
@@ -44,7 +44,7 @@ const App = () => {
       <button onClick={handleClick}>next anecdote</button>
       <br/>
       <h2>Anectode with most votes</h2>
-      <p>{anecdotes[mostVoted]}</p>
+      <p>{`${anecdotes[mostVoted]} has ${copy[mostVoted]} votes`}</p>
     </div>
   )
 }
