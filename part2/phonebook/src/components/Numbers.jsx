@@ -9,7 +9,12 @@ const Numbers = (props) => {
         <>
         <h2>Numbers</h2>
         {filteredPersons.map(person => 
-        <Person key = {person.name} person = {person}/>)}
+        <Person 
+            key = {person.name} 
+            person = {person} 
+            handleClick = {props.toggleFavorite}
+            handleDeleteClick = {props.deleteContact}
+        />)}
         </>
     )
 }
