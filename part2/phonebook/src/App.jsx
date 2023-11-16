@@ -3,12 +3,14 @@ import personsService from './service/persons'
 import Numbers from './components/Numbers'
 import Form from './components/Form'
 import Filter from './components/Filter'
+import Notification from './components/Notification'
 
 const App = () => {
   const [persons, setPersons] = useState([]) 
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
+  const [errorMessage, setErrorMessage] = useState()
 
   const handleChange = (event) => {
     setNewName(event.target.value)
@@ -25,7 +27,7 @@ const App = () => {
     personsService
       .getAll()
       .then(intialPersons => setPersons(intialPersons))
-  },[setPersons])
+  },[])
   console.log('render', persons.length, 'notes')
 
   const addContact = (event) => {
@@ -39,6 +41,12 @@ const App = () => {
           .then(returnedPerson => {
             setPersons(persons.map(p => p.id === person.id ? returnedPerson : p ))
         })
+          .then(setErrorMessage
+            `Contact number was changed successfully`
+          )
+          setTimeout(() => {
+            setErrorMessage(null)
+          },5000)
       } 
       
     } else {
@@ -50,6 +58,12 @@ const App = () => {
       personsService
         .create(nameObject)
         .then(returnedPerson => setPersons(persons.concat(returnedPerson)))
+        .then(setErrorMessage
+          ` Contact number was added successfully`
+        )
+        setTimeout(() => {
+          setErrorMessage(null)
+        },5000)
     }
     setNewName('')
     setNewNumber('')
@@ -63,13 +77,35 @@ const App = () => {
       .update(id, changedPerson)
       .then(returnedPerson => {
         setPersons(persons.map(person => person.id === id ? returnedPerson : person ))
-    }) 
+    })
+    .then(setErrorMessage
+      `Contact was favorited successfully`
+    )
+    .catch(error => {
+      setErrorMessage('Contact information was previously removed from server'
+      )
+    })
+    setTimeout(() => {
+      setErrorMessage(null)
+    },5000)
+    setPersons(persons.filter(p => p.id !== id))
    }
 
   const deleteContact = (id) => {
     personsService
       .remove(id)
       .then(setPersons(persons.filter(p => p.id !== id)))
+      .then(setErrorMessage
+        `Contact number was deleted successfully`
+      )
+      .catch(error => {
+        setErrorMessage('Contact information was previously removed from server'
+        )
+      })
+      setTimeout(() => {
+        setErrorMessage(null)
+      },5000)
+      setPersons(persons.filter(p => p.id !== id))  
   }
 
   return (
@@ -86,6 +122,7 @@ const App = () => {
         handleChange = {handleChange}
         handleNumberChange = {handleNumberChange}
       />
+      <Notification message={errorMessage}/>
       <Numbers 
         persons = {persons} 
         filter = {filter} 

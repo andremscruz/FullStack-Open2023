@@ -3,22 +3,25 @@ import notFav from "../images/empty-star.png"
 import deleteContact from "../images/delete.png"
 
 const Person = (props) => {
-    const styles = {
+    const stylesB = {
         backgroundColor: "white",
         border: "none",
         cursor: "pointer"
         
     }
+    const stylesN = {
+        marginLeft: "10px"
+    }
     return(
-        <h3>{props.person.name}: {props.person.number}
+        <h3 style={stylesN}>{props.person.name}: {props.person.number}
             
             <button 
-                style={styles} 
+                style={stylesB} 
                 onClick={() => props.handleClick(props.person.id)}>
             <img alt="" src={props.person.favorite ? fav : notFav}/>
             </button>
             <button
-                style={styles}
+                style={stylesB}
                 onClick={() => props.handleDeleteClick(props.person.id)}>
                 <img alt="" src={deleteContact} />
             </button>
