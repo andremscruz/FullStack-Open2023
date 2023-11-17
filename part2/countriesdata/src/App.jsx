@@ -11,13 +11,12 @@ const App = () => {
 
   const filteredCountries = countryList.filter(c => 
     c.name.common.toLowerCase().includes(country.toLowerCase()))
-    console.log('Fecthed', filteredCountries.length, 'countries')
+
   useEffect(() => {
     countryService
       .getAll()
       .then(countries => setCountryList(countries))
       .catch(error => console.error("Error fetching countries:", error));
-      console.log('Fecthed', countryList.length, 'countries')
   },[])
 
   const handleChange = (event) => {
