@@ -23,12 +23,11 @@ const App = () => {
   }
 
   useEffect(() => {
-    console.log('effect')
     personsService
       .getAll()
       .then(intialPersons => setPersons(intialPersons))
   },[])
-  console.log('render', persons.length, 'notes')
+  
 
   const addContact = (event) => {
     event.preventDefault()
@@ -76,19 +75,19 @@ const App = () => {
     personsService
       .update(id, changedPerson)
       .then(returnedPerson => {
-        setPersons(persons.map(person => person.id === id ? returnedPerson : person ))
+        setPersons(persons.map(p => p.id === id ? returnedPerson : p ))
     })
-    .then(setErrorMessage
-      `Contact was favorited successfully`
-    )
+    .then( person.favorite === false ? 
+      setErrorMessage('Contact was favorited successfully') :
+      setErrorMessage('Contact was unfavorited successfully'))
     .catch(error => {
       setErrorMessage('Contact information was previously removed from server'
       )
+      setPersons(persons.filter(p => p.id !== id))
     })
     setTimeout(() => {
       setErrorMessage(null)
     },5000)
-    setPersons(persons.filter(p => p.id !== id))
    }
 
   const deleteContact = (id) => {
@@ -96,7 +95,7 @@ const App = () => {
       .remove(id)
       .then(setPersons(persons.filter(p => p.id !== id)))
       .then(setErrorMessage
-        `Contact number was deleted successfully`
+        `Contact was deleted successfully`
       )
       .catch(error => {
         setErrorMessage('Contact information was previously removed from server'
