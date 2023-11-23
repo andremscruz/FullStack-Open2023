@@ -1,3 +1,5 @@
+/* eslint-disable no-unexpected-multiline */
+/* eslint-disable no-unused-vars */
 import { useState, useEffect } from 'react'
 import personsService from './service/persons'
 import Numbers from './components/Numbers'
@@ -27,6 +29,7 @@ const App = () => {
       .getAll()
       .then(intialPersons => setPersons(intialPersons))
   },[])
+
   
 
   const addContact = (event) => {
@@ -43,6 +46,9 @@ const App = () => {
           .then(setErrorMessage
             `Contact number was changed successfully`
           )
+          .catch(error => {
+            setErrorMessage(`Name must have at least 3 characteres and number at least 8`)
+          })
           setTimeout(() => {
             setErrorMessage(null)
           },5000)
@@ -60,6 +66,9 @@ const App = () => {
         .then(setErrorMessage
           ` Contact number was added successfully`
         )
+        .catch(error => {
+          setErrorMessage(`Name must have at least 3 characteres and number at least 8`)
+        })
         setTimeout(() => {
           setErrorMessage(null)
         },5000)
@@ -77,7 +86,7 @@ const App = () => {
       .then(returnedPerson => {
         setPersons(persons.map(p => p.id === id ? returnedPerson : p ))
     })
-    .then( person.favorite === false ? 
+    .then( person.favorite === false  ? 
       setErrorMessage('Contact was favorited successfully') :
       setErrorMessage('Contact was unfavorited successfully'))
     .catch(error => {
